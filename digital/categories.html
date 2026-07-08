@@ -125,9 +125,11 @@
   <script src="js/data.js"></script>
   <script>window.portalType = "digital";</script>
   <script>window.portalType = "digital";</script>
+  <script type="module" src="js/supabase-client.js"></script>
   <script src="js/main.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.fetchProducts) await window.fetchProducts();
       
       if (window.portalType === 'service') {
         document.title = "Categories - IT Services";

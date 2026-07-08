@@ -56,25 +56,91 @@ document.addEventListener("DOMContentLoaded", () => {
 // ==========================================
 // Global function to fetch products (Mock)
 window.fetchProducts = async () => {
+  if (!window.supabase) return;
+  try {
+    const { data: categories, error: cErr } = await window.supabase.from('categories').select('*');
+    if (cErr) throw cErr;
+    if (categories) {
+      window.db.categories = categories.map(c => ({
+        id: c.id,
+        name: c.name,
+        icon: c.icon,
+        type: c.portal,
+        count: 0
+      }));
+    }
+
+    const { data: products, error: pErr } = await window.supabase.from('products').select('*');
+    if (pErr) throw pErr;
+    if (products) {
+      window.db.products = products.map(p => ({
+        id: p.id,
+        name: p.title,
+        description: p.description,
+        price: p.price,
+        discount: p.discount,
+        category: p.category_id,
+        image: p.image,
+        type: p.portal,
+        rating: 4.8,
+        reviews: 124,
+        features: []
+      }));
+    }
+  } catch (err) {
+    console.error('Supabase fetch error:', err);
+  }
   return window.db.products;
 };
 
-// Check if user is logged in (mock)
-document.addEventListener('DOMContentLoaded', () => {
-  const currentUser = localStorage.getItem('mockUser');
-  const loginBtn = document.querySelector('a[href="login.html"].btn');
-  const profileBtn = document.querySelector('a[href="profile.html"].btn');
+
+// Check if user is logged in (Supabase)
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!window.supabase) return;
   
-  if (currentUser) {
-    if (loginBtn) {
-      loginBtn.textContent = 'Profile';
-      loginBtn.href = 'profile.html';
+  try {
+    const { data: { session } } = await window.supabase.auth.getSession();
+    const currentUser = session?.user;
+    
+    const loginLinks = document.querySelectorAll('a[href="login.html"]');
+    const profileLinks = document.querySelectorAll('a[href="profile.html"]');
+    
+    if (currentUser) {
+      const avatarUrl = currentUser.user_metadata?.avatar_url || 'https://ui-avatars.com/api/?name=' + (currentUser.user_metadata?.full_name || 'User');
+      
+      loginLinks.forEach(btn => {
+        if (btn.classList.contains('btn')) {
+          btn.innerHTML = `<img src="${avatarUrl}" alt="Profile" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid var(--color-primary); display: block;">`;
+          btn.href = 'profile.html';
+          btn.style.padding = '0';
+          btn.style.background = 'transparent';
+          btn.style.border = 'none';
+        } else {
+          // Bottom nav or other links
+          const span = btn.querySelector('span');
+          if(span) span.textContent = 'Profile';
+          else btn.textContent = 'Profile';
+          btn.href = 'profile.html';
+        }
+      });
+    } else {
+      profileLinks.forEach(btn => {
+        if (btn.classList.contains('btn')) {
+          btn.innerHTML = `<i class="fa-solid fa-user"></i> Login`;
+          btn.href = 'login.html';
+          btn.style.padding = '';
+          btn.style.background = '';
+          btn.style.border = '';
+        } else {
+          const span = btn.querySelector('span');
+          if(span) span.textContent = 'Login';
+          else btn.textContent = 'Login';
+          btn.href = 'login.html';
+        }
+      });
     }
-  } else {
-    if (profileBtn) {
-      profileBtn.textContent = 'Login';
-      profileBtn.href = 'login.html';
-    }
+  } catch(e) {
+    console.error("Session fetch error", e);
   }
 });
 

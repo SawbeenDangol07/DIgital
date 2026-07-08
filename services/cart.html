@@ -196,9 +196,11 @@
   <script src="js/data.js"></script>
   <script>window.portalType = "service";</script>
   <script>window.portalType = "service";</script>
+  <script type="module" src="js/supabase-client.js"></script>
   <script src="js/main.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.fetchProducts) await window.fetchProducts();
       
       const renderCart = () => {
         const cart = window.getCart();
@@ -278,13 +280,14 @@
         renderCart();
       };
       
-      window.proceedToCheckout = () => {
+      window.proceedToCheckout = async () => {
         const cart = window.getCart();
         if (cart.length === 0) {
           window.showEmptyCartPopup();
           return;
         }
-        if (!localStorage.getItem('mockUser')) {
+        const { data: { session } } = await window.supabase.auth.getSession();
+        if (!session) {
           window.showLoginPopup();
           return;
         }

@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/variables.css">
-  <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="../css/components.css">
-  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../digital/css/variables.css">
+  <link rel="stylesheet" href="../digital/css/global.css">
+  <link rel="stylesheet" href="../digital/css/components.css">
+  <link rel="stylesheet" href="../digital/css/animations.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
@@ -31,6 +31,7 @@
   </aside>
 
   <!-- Main Content -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <main class="admin-main">
     <header class="admin-header">
       <div style="display: flex; align-items: center; gap: 1rem;">
@@ -117,16 +118,27 @@
     </div>
   </main>
 
-  <script src="../js/main.js"></script>
+  <script type="module" src="../digital/js/supabase-client.js"></script>
+  <script src="../digital/js/main.js"></script>
   <script>
     // Handle mobile menu
-    if (window.innerWidth <= 992) {
-      document.getElementById('mobile-menu-btn').style.display = 'flex';
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (menuBtn && sidebar) {
+      menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        if (overlay) overlay.classList.toggle('show');
+      });
     }
-    
-    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('open');
-    });
+
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      });
+    }
   </script>
 </body>
 </html>

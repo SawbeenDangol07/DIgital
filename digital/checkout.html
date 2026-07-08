@@ -78,6 +78,10 @@
             <label>City</label>
             <input type="text" class="input-field" required>
           </div>
+          <div class="input-group">
+            <label>Phone Number</label>
+            <input type="tel" class="input-field" required placeholder="+1 234 567 8900">
+          </div>
         </div>
       </div>
 
@@ -126,9 +130,11 @@
   <script src="js/data.js"></script>
   <script>window.portalType = "digital";</script>
   <script>window.portalType = "digital";</script>
+  <script type="module" src="js/supabase-client.js"></script>
   <script src="js/main.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.fetchProducts) await window.fetchProducts();
       const cart = window.getCart();
       const container = document.getElementById('checkout-items-container');
       const submitBtn = document.querySelector('button[type="submit"]');
@@ -163,13 +169,14 @@
       document.getElementById('checkout-total').textContent = window.formatCurrency(subtotal);
     });
 
-    document.getElementById('checkout-form').addEventListener('submit', (e) => {
+    document.getElementById('checkout-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (window.getCart().length === 0) {
         window.showEmptyCartPopup();
         return;
       }
-      if (!localStorage.getItem('mockUser')) {
+      const { data: { session } } = await window.supabase.auth.getSession();
+      if (!session) {
         window.showLoginPopup();
         return;
       }

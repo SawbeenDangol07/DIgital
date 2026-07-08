@@ -113,17 +113,16 @@
       <!-- Sidebar -->
       <aside class="profile-sidebar">
         <div class="user-info">
-          <div class="user-avatar">
-            <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    <div class="user-avatar">
+            <img id="profile-avatar" src="https://ui-avatars.com/api/?name=User" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
           </div>
-          <h3 style="margin-bottom: 0.25rem;">John Doe</h3>
-          <p style="color: var(--color-text-muted); font-size: 0.9rem;">john.doe@example.com</p>
+          <h3 id="profile-name" style="margin-bottom: 0.25rem;">Loading...</h3>
+          <p id="profile-email" style="color: var(--color-text-muted); font-size: 0.9rem;">...</p>
         </div>
         <nav class="profile-nav" id="profile-nav-links">
           <a href="#" class="active" data-tab="tab-personal"><i class="fa-solid fa-user"></i> Personal Info</a>
           <a href="#" data-tab="tab-orders"><i class="fa-solid fa-box"></i> Order History</a>
           <a href="#" data-tab="tab-wishlist"><i class="fa-solid fa-heart"></i> Wishlist</a>
-          <a href="#" data-tab="tab-security"><i class="fa-solid fa-shield-halved"></i> Security</a>
           <a href="login.html" style="color: var(--color-danger);"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         </nav>
       </aside>
@@ -139,32 +138,22 @@
           <div class="form-row">
             <div class="input-group">
               <label>First Name</label>
-              <input type="text" class="input-field" value="John">
+              <input type="text" class="input-field" value="John" readonly style="opacity: 0.7; cursor: not-allowed;">
             </div>
             <div class="input-group">
               <label>Last Name</label>
-              <input type="text" class="input-field" value="Doe">
+              <input type="text" class="input-field" value="Doe" readonly style="opacity: 0.7; cursor: not-allowed;">
             </div>
           </div>
           
-          <div class="input-group">
-            <label>Email Address</label>
-            <input type="email" class="input-field" value="john.doe@example.com" readonly style="opacity: 0.7; cursor: not-allowed;">
-          </div>
+          
           
           <div class="input-group">
             <label>Phone Number</label>
             <input type="tel" class="input-field" placeholder="+1 234 567 8900">
           </div>
 
-          <h3 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md);">Preferences</h3>
           
-          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text-secondary); margin-bottom: 0.5rem;">
-            <input type="checkbox" checked> Subscribe to newsletter and exclusive offers
-          </label>
-          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text-secondary);">
-            <input type="checkbox" checked> Receive order notifications via email
-          </label>
 
           <div style="margin-top: var(--spacing-xl);">
             <button type="button" class="btn btn-primary" onclick="alert('Profile updated successfully')">Save Changes</button>
@@ -209,13 +198,7 @@
           <p style="color: var(--color-text-secondary);">Your wishlist is currently empty.</p>
         </div>
 
-        <div id="tab-security" class="profile-tab" style="display: none;">
-          <h2 style="margin-bottom: var(--spacing-lg);">Security Settings</h2>
-          <p style="color: var(--color-text-secondary);">Manage your passwords and 2FA settings here.</p>
-          <button class="btn btn-outline" style="margin-top: var(--spacing-md);">Change Password</button>
         </div>
-
-      </div>
     </div>
   </main>
 
@@ -238,18 +221,69 @@
     </a>
   </nav>
 
+  <script type="module" src="js/supabase-client.js"></script>
   <script src="js/main.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
+      if (!window.supabase) return;
+      const { data: { session } } = await window.supabase.auth.getSession();
+      if (!session) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      const user = session.user;
+      document.getElementById('profile-name').textContent = user.user_metadata?.full_name || 'User';
+      document.getElementById('profile-email').textContent = user.email;
+      const avatarUrl = user.user_metadata?.avatar_url || 'https://ui-avatars.com/api/?name=' + (user.user_metadata?.full_name || 'User');
+      document.getElementById('profile-avatar').src = avatarUrl;
+      
+      // Update form fields
+      const inputs = document.querySelectorAll('.input-field');
+      if (inputs.length >= 2) {
+        const names = (user.user_metadata?.full_name || '').split(' ');
+        inputs[0].value = names[0] || '';
+        inputs[1].value = names.slice(1).join(' ') || '';
+      }
+      const emailInput = document.querySelector('input[type="email"]');
+      if (emailInput) emailInput.value = user.email;
+
       // Setup Logout Button
       const logoutBtn = document.querySelector('a[style*="color: var(--color-danger)"]');
       if (logoutBtn) {
         logoutBtn.href = "#";
         logoutBtn.addEventListener('click', async (e) => {
           e.preventDefault();
-          localStorage.removeItem('mockUser');
+          await window.supabase.auth.signOut();
           window.location.href = 'index.html';
         });
+      }
+      
+      // Load orders
+      const ordersTbody = document.querySelector('#tab-orders tbody');
+      if (ordersTbody) {
+        ordersTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Loading orders...</td></tr>';
+        const { data: orders, error } = await window.supabase.from('orders').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+        if (!error && orders) {
+          if (orders.length === 0) {
+            ordersTbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No orders found.</td></tr>';
+          } else {
+            ordersTbody.innerHTML = '';
+            orders.forEach(order => {
+              const statusColor = order.status === 'completed' ? 'var(--color-success)' : order.status === 'failed' ? 'var(--color-danger)' : 'var(--color-warning)';
+              const statusBg = order.status === 'completed' ? 'rgba(16, 185, 129, 0.1)' : order.status === 'failed' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(245, 158, 11, 0.1)';
+              ordersTbody.innerHTML += `
+                <tr>
+                  <td>#${order.id.split('-')[0].toUpperCase()}</td>
+                  <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                  <td>${order.payment_method}</td>
+                  <td>${window.formatCurrency ? window.formatCurrency(order.total_amount) : '$' + order.total_amount}</td>
+                  <td><span class="badge" style="background: ${statusBg}; color: ${statusColor}; text-transform: capitalize;">${order.status}</span></td>
+                </tr>
+              `;
+            });
+          }
+        }
       }
 
       // Tab Switching Logic
@@ -259,21 +293,12 @@
       navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
-          
-          // Remove active class from all links
           navLinks.forEach(l => l.classList.remove('active'));
-          // Add active class to clicked link
           link.classList.add('active');
-          
-          // Hide all tabs
           tabs.forEach(tab => tab.style.display = 'none');
-          
-          // Show target tab
           const targetTabId = link.getAttribute('data-tab');
           const targetTab = document.getElementById(targetTabId);
-          if (targetTab) {
-            targetTab.style.display = 'block';
-          }
+          if (targetTab) targetTab.style.display = 'block';
         });
       });
     });
