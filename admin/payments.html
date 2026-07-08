@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Payments</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <i class="fa-solid fa-layer-group" style="margin-right: 10px;"></i> D-Goods Admin
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="orders.html"><i class="fa-solid fa-box-open"></i> Orders</a>
+      <a href="products.html"><i class="fa-solid fa-tags"></i> Products</a>
+      <a href="categories.html"><i class="fa-solid fa-folder"></i> Categories</a>
+      <a href="customers.html"><i class="fa-solid fa-users"></i> Customers</a>
+      <a href="payments.html" class="active"><i class="fa-solid fa-credit-card"></i> Payments</a>
+      <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+      <a href="../index.html" style="margin-top: 2rem; color: var(--color-danger);"><i class="fa-solid fa-right-from-bracket"></i> Storefront</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <h2 style="font-size: 1.25rem;">Payments & Transactions</h2>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button id="theme-toggle" class="btn-icon"><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </header>
+
+    <div class="admin-content animate-fade-in">
+      <div class="stats-grid stagger-1" style="margin-bottom: var(--spacing-lg);">
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>Stripe Balance</h3>
+            <div class="value">$12,450.00</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>PayPal Balance</h3>
+            <div class="value">$8,200.00</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-info">
+            <h3>Pending Payouts</h3>
+            <div class="value">$3,850.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container stagger-2">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Transaction ID</th>
+              <th>Order ID</th>
+              <th>Method</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#TXN-98213</td>
+              <td>#ORD-9432</td>
+              <td><i class="fa-brands fa-stripe" style="color: #6366f1;"></i> Stripe</td>
+              <td>$14.39</td>
+              <td>Oct 24, 2026</td>
+              <td><span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">Successful</span></td>
+            </tr>
+            <tr>
+              <td>#TXN-98212</td>
+              <td>#ORD-9431</td>
+              <td><i class="fa-brands fa-paypal" style="color: #00457C;"></i> PayPal</td>
+              <td>$119.99</td>
+              <td>Oct 24, 2026</td>
+              <td><span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">Successful</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script src="../js/main.js"></script>
+</body>
+</html>

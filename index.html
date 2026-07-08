@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome - Choose Your Portal</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: var(--font-family);
+    }
+    
+    body {
+      overflow: hidden;
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .split-layout {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .split-pane {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+    }
+
+    .split-pane:hover {
+      flex: 1.2;
+    }
+
+    .split-pane::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+      opacity: 0.4;
+      transition: transform 0.8s ease, opacity 0.5s ease;
+    }
+
+    .split-pane:hover::before {
+      transform: scale(1.05);
+      opacity: 0.6;
+    }
+
+    .split-pane::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    /* Digital Goods Portal */
+    .digital-pane::before {
+      background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop');
+    }
+    .digital-pane::after {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(6, 78, 59, 0.9));
+    }
+    
+    /* IT Services Portal */
+    .service-pane::before {
+      background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+    }
+    .service-pane::after {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.8), rgba(15, 23, 42, 0.9));
+    }
+
+    .content-wrapper {
+      padding: 2rem;
+      z-index: 10;
+      transform: translateY(20px);
+      transition: transform 0.5s ease;
+    }
+
+    .split-pane:hover .content-wrapper {
+      transform: translateY(0);
+    }
+
+    .icon-wrapper {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      padding: 1.5rem;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      opacity: 0.8;
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      background: white;
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .digital-pane .enter-btn { color: #064e3b; }
+    .service-pane .enter-btn { color: #0f172a; }
+
+    .split-pane:hover .enter-btn {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .split-layout {
+        flex-direction: column;
+      }
+      .split-pane:hover {
+        flex: 1.1;
+      }
+    }
+  
+
+
+  </style>
+</head>
+<body>
+
+  <div class="split-layout">
+    
+    <!-- Digital Goods -->
+    <a href="digital/index.html" class="split-pane digital-pane animate-fade-in">
+      <div class="content-wrapper">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <h1>Digital Goods</h1>
+        <p>Premium software, subscriptions, gift cards, and digital assets.</p>
+        <div class="enter-btn">
+          Explore Goods <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+    </a>
+
+    <!-- IT Services -->
+    <a href="services/index.html" class="split-pane service-pane animate-fade-in">
+      <div class="content-wrapper">
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-server"></i>
+        </div>
+        <h1>IT Services</h1>
+        <p>Expert cloud migration, full-stack development, and security audits.</p>
+        <div class="enter-btn">
+          Explore Services <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Digital Goods</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--spacing-xl);
+      padding: calc(var(--nav-height) + var(--spacing-xl)) 0 var(--spacing-xxl);
+    }
+    .form-section {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+    .form-row { display: flex; gap: var(--spacing-md); }
+    .form-row .input-group { flex: 1; }
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .form-row { flex-direction: column; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" class="nav-logo-link">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <a href="../services/index.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-right-left"></i> <span class="hide-on-mobile">Switch Services</span>
+      </a>
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" id="nav-cart-count" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <form id="checkout-form" class="checkout-layout">
+      <div>
+        <div class="form-section">
+          <h2 style="margin-bottom: var(--spacing-md);">Billing Address</h2>
+          <div class="input-group">
+            <label>Address Line 1</label>
+            <input type="text" class="input-field" required>
+          </div>
+          <div class="input-group">
+            <label>City</label>
+            <input type="text" class="input-field" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section" style="animation-delay: 0.2s; height: fit-content; position: sticky; top: calc(var(--nav-height) + 20px);">
+        <h3 style="margin-bottom: var(--spacing-md);">Order Summary</h3>
+        
+        <div id="checkout-items-container">
+          <!-- Dynamic Items -->
+        </div>
+        
+        <div style="border-top: 1px solid var(--color-border); margin-top: 15px; padding-top: 15px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 700; font-size: 1.2rem;">
+            <span>Total to Pay</span>
+            <span id="checkout-total">$0.00</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Continue to Payment</button>
+      </div>
+    </form>
+  </main>
+
+    <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="products.html" class="bottom-nav-item">
+      <i class="fa-solid fa-box"></i>
+      <span>Products</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script>window.portalType = "digital";</script>
+  <script>window.portalType = "digital";</script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cart = window.getCart();
+      const container = document.getElementById('checkout-items-container');
+      const submitBtn = document.querySelector('button[type="submit"]');
+      let subtotal = 0;
+      
+      container.innerHTML = '';
+      
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="color: var(--color-text-secondary); font-size: 0.9rem;">Your cart is empty.</p>';
+      } else {
+        cart.forEach(cartItem => {
+          const product = window.db.products.find(p => p.id === cartItem.id);
+          if (!product) return;
+          
+          const discountedPrice = window.calculateDiscount(product.price, product.discount);
+          const itemTotal = discountedPrice * cartItem.quantity;
+          subtotal += itemTotal;
+          
+          container.innerHTML += `
+            <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+              <img src="${product.image}" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;">
+              <div style="flex:1;">
+                <div style="font-weight: 500; font-size: 0.9rem;">${product.name}</div>
+                <div style="color: var(--color-text-muted); font-size: 0.8rem;">Qty: ${cartItem.quantity}</div>
+              </div>
+              <div style="font-weight: 500;">${window.formatCurrency(itemTotal)}</div>
+            </div>
+          `;
+        });
+      }
+      
+      document.getElementById('checkout-total').textContent = window.formatCurrency(subtotal);
+    });
+
+    document.getElementById('checkout-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (window.getCart().length === 0) {
+        window.showEmptyCartPopup();
+        return;
+      }
+      if (!localStorage.getItem('mockUser')) {
+        window.showLoginPopup();
+        return;
+      }
+      window.location.href = 'payment.html';
+    });
+  </script>
+  <div class="cursor"></div>
+</body>
+
+</html>

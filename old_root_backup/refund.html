@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Policy - Digital Goods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .legal-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + var(--spacing-xl)) var(--spacing-md) var(--spacing-xxl);
+    }
+    .legal-content h1 { margin-bottom: var(--spacing-lg); }
+    .legal-content h2 { margin: var(--spacing-xl) 0 var(--spacing-md); font-size: 1.5rem; }
+    .legal-content p, .legal-content li { color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); line-height: 1.6; }
+    .legal-content ul { list-style-type: disc; padding-left: 20px; margin-bottom: var(--spacing-md); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="legal-content animate-slide-up">
+      <h1>Refund Policy</h1>
+      <p>Last updated: October 2026</p>
+
+      <h2>1. Overview</h2>
+      <p>Due to the nature of digital goods, all sales are final once the product key or digital asset has been accessed or downloaded. We cannot revoke a digital key once it has been revealed.</p>
+
+      <h2>2. Exceptional Circumstances</h2>
+      <p>We may offer refunds or replacements under the following exceptional circumstances:</p>
+      <ul>
+        <li>The digital key or account provided is invalid or already used (must be reported within 24 hours of purchase).</li>
+        <li>The wrong product was delivered.</li>
+        <li>Duplicate transactions occurred.</li>
+      </ul>
+
+      <h2>3. How to Request a Refund</h2>
+      <p>If you believe you are eligible for a refund based on the criteria above, please contact our support team at <strong>support@d-goods.com</strong> within 3 days of purchase with your order ID and proof of the issue.</p>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

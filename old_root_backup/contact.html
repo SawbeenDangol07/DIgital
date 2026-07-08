@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Digital Goods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xxl);
+      padding: calc(var(--nav-height) + var(--spacing-xxl)) 0 var(--spacing-xxl);
+    }
+    .contact-info { margin-bottom: var(--spacing-xl); }
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-md);
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+    .contact-method i { font-size: 1.5rem; color: var(--color-primary); }
+    .map-placeholder {
+      width: 100%;
+      height: 300px;
+      background: var(--color-surface-hover);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      margin-top: var(--spacing-lg);
+    }
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="contact-layout animate-slide-up">
+      
+      <div>
+        <h1 style="margin-bottom: var(--spacing-sm);">Get in Touch</h1>
+        <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-xl);">Have a question or need help with a purchase? We're here for you.</p>
+        
+        <div class="contact-info">
+          <div class="contact-method">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <h4 style="margin-bottom: 0.25rem;">Email Us</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.9rem;">support@d-goods.com</p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <i class="fa-brands fa-discord"></i>
+            <div>
+              <h4 style="margin-bottom: 0.25rem;">Discord Community</h4>
+              <p style="color: var(--color-text-secondary); font-size: 0.9rem;">Join our discord server for 24/7 support.</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="map-placeholder">
+          <i class="fa-solid fa-map-location-dot" style="font-size: 3rem; margin-right: 10px;"></i> Google Maps Placeholder
+        </div>
+      </div>
+
+      <div style="background: var(--color-surface); padding: var(--spacing-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border);">
+        <h3 style="margin-bottom: var(--spacing-lg);">Send a Message</h3>
+        <form>
+          <div class="input-group">
+            <label>Name</label>
+            <input type="text" class="input-field" placeholder="Your Name" required>
+          </div>
+          <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" class="input-field" placeholder="you@example.com" required>
+          </div>
+          <div class="input-group">
+            <label>Order ID (Optional)</label>
+            <input type="text" class="input-field" placeholder="#ORD-XXXXX">
+          </div>
+          <div class="input-group">
+            <label>Message</label>
+            <textarea class="input-field" rows="5" placeholder="How can we help?" required style="resize: vertical;"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%;" onclick="event.preventDefault(); alert('Message Sent!')">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+  
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <i class="fa-solid fa-layer-group" style="margin-right: 10px;"></i> D-Goods Admin
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+      <a href="orders.html"><i class="fa-solid fa-box-open"></i> Orders</a>
+      <a href="products.html"><i class="fa-solid fa-tags"></i> Products</a>
+      <a href="categories.html"><i class="fa-solid fa-folder"></i> Categories</a>
+      <a href="customers.html"><i class="fa-solid fa-users"></i> Customers</a>
+      <a href="payments.html"><i class="fa-solid fa-credit-card"></i> Payments</a>
+      <a href="settings.html"><i class="fa-solid fa-gear"></i> Settings</a>
+      <a href="../index.html" style="margin-top: 2rem; color: var(--color-danger);"><i class="fa-solid fa-right-from-bracket"></i> Storefront</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button class="btn-icon" id="mobile-menu-btn" style="display: none;"><i class="fa-solid fa-bars"></i></button>
+        <h2 style="font-size: 1.25rem;">Dashboard Overview</h2>
+      </div>
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button id="theme-toggle" class="btn-icon"><i class="fa-solid fa-moon"></i></button>
+        <div class="avatar" style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center;">
+          A
+        </div>
+      </div>
+    </header>
+
+    <div class="admin-content animate-fade-in">
+      
+      <!-- Stats -->
+      <div class="stats-grid stagger-1">
+        <div class="stat-card">
+          <div class="stat-icon primary"><i class="fa-solid fa-dollar-sign"></i></div>
+          <div class="stat-info">
+            <h3>Total Revenue</h3>
+            <div class="value">$24,500.00</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon success"><i class="fa-solid fa-cart-shopping"></i></div>
+          <div class="stat-info">
+            <h3>Total Orders</h3>
+            <div class="value">1,240</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon warning"><i class="fa-solid fa-users"></i></div>
+          <div class="stat-info">
+            <h3>Customers</h3>
+            <div class="value">850</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div class="table-container stagger-2">
+        <div style="padding: var(--spacing-md) var(--spacing-lg); border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="margin: 0;">Recent Orders</h3>
+          <a href="orders.html" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;">View All</a>
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#ORD-9432</td>
+              <td>john@example.com</td>
+              <td>Netflix Premium</td>
+              <td>$14.39</td>
+              <td><span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">Completed</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-9431</td>
+              <td>jane@example.com</td>
+              <td>Canva Pro</td>
+              <td>$119.99</td>
+              <td><span class="badge" style="background: rgba(245, 158, 11, 0.1); color: var(--color-warning);">Pending</span></td>
+            </tr>
+            <tr>
+              <td>#ORD-9430</td>
+              <td>bob@example.com</td>
+              <td>Spotify Premium</td>
+              <td>$25.49</td>
+              <td><span class="badge" style="background: rgba(16, 185, 129, 0.1); color: var(--color-success);">Completed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Handle mobile menu
+    if (window.innerWidth <= 992) {
+      document.getElementById('mobile-menu-btn').style.display = 'flex';
+    }
+    
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

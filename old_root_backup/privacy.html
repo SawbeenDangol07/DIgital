@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Digital Goods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .legal-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + var(--spacing-xl)) var(--spacing-md) var(--spacing-xxl);
+    }
+    .legal-content h1 { margin-bottom: var(--spacing-lg); }
+    .legal-content h2 { margin: var(--spacing-xl) 0 var(--spacing-md); font-size: 1.5rem; }
+    .legal-content p, .legal-content li { color: var(--color-text-secondary); margin-bottom: var(--spacing-sm); line-height: 1.6; }
+    .legal-content ul { list-style-type: disc; padding-left: 20px; margin-bottom: var(--spacing-md); }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="legal-content animate-slide-up">
+      <h1>Privacy Policy</h1>
+      <p>Last updated: October 2026</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>We collect information you provide directly to us, such as when you create or modify your account, request on-demand services, contact customer support, or otherwise communicate with us. This information may include: name, email, phone number, and payment information.</p>
+
+      <h2>2. Use of Information</h2>
+      <p>We use the information we collect to:</p>
+      <ul>
+        <li>Provide, maintain, and improve our services.</li>
+        <li>Process transactions and send related information.</li>
+        <li>Send support and administrative messages.</li>
+      </ul>
+
+      <h2>3. Sharing of Information</h2>
+      <p>We do not share personal information with companies, organizations, and individuals outside of Digital Goods Marketplace unless one of the following circumstances applies:</p>
+      <ul>
+        <li>With your consent.</li>
+        <li>For legal reasons.</li>
+        <li>With trusted third-party payment processors (e.g., Stripe, PayPal).</li>
+      </ul>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

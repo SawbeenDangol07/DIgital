@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Digital Goods</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  
+  <style>
+    .page-layout {
+      display: flex;
+      gap: var(--spacing-xl);
+      padding: calc(var(--nav-height) + var(--spacing-lg)) 0 var(--spacing-xxl);
+    }
+
+    .sidebar {
+      width: 250px;
+      flex-shrink: 0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-lg);
+      height: fit-content;
+      position: sticky;
+      top: calc(var(--nav-height) + 20px);
+    }
+
+    .filter-group {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .filter-group h3 {
+      font-size: 1rem;
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-text-primary);
+    }
+
+    .filter-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+    }
+
+    .content-area {
+      flex: 1;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-lg);
+      background: var(--color-surface);
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    @media (max-width: 768px) {
+      .page-layout {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" class="nav-logo-link">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <a href="../services/index.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-right-left"></i> <span class="hide-on-mobile">Switch Services</span>
+      </a>
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" id="nav-cart-count" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    
+    <div class="mobile-search-header hide-on-desktop">
+      <a href="javascript:history.back()" class="mobile-back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+      <div class="mobile-search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass" style="color: var(--color-text-muted); margin-right: 0.5rem;"></i>
+        <input type="text" placeholder="Search..." id="mobile-search-input">
+      </div>
+      <button class="mobile-filter-btn" id="mobile-filter-toggle"><i class="fa-solid fa-sliders"></i></button>
+    </div>
+
+    <div class="page-layout">
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <div class="filter-group">
+          <h3>Search</h3>
+          <input type="text" class="input-field" placeholder="Search..." id="search-input">
+        </div>
+
+        <div class="filter-group">
+          <h3>Categories</h3>
+          <div id="category-filters">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Price Range</h3>
+          <label><input type="radio" name="price" value="all" checked> All Prices</label>
+          <label><input type="radio" name="price" value="under-20"> Under $20</label>
+          <label><input type="radio" name="price" value="20-50"> $20 - $50</label>
+          <label><input type="radio" name="price" value="50-plus"> $50 & Above</label>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="content-area">
+        <div class="toolbar">
+          <span id="results-count">Showing X results</span>
+          <select class="input-field" style="width: auto;" id="sort-select">
+            <option value="featured">Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="products.html" class="bottom-nav-item">
+      <i class="fa-solid fa-box"></i>
+      <span>Products</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script>window.portalType = "digital";</script>
+  <script>window.portalType = "digital";</script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.fetchProducts) await window.fetchProducts();
+
+      if (window.portalType === 'service') {
+        document.title = "Services - IT Services";
+        
+        
+        
+        
+      } else {
+        
+      }
+
+      // Setup Category Filters
+      const catFilters = document.getElementById('category-filters');
+      catFilters.innerHTML = `<label><input type="radio" name="category" value="all" checked> All</label>`;
+      window.db.categories.filter(c => c.type === window.portalType).forEach(cat => {
+        catFilters.innerHTML += `<label><input type="radio" name="category" value="${cat.id}"> ${cat.name}</label>`;
+      });
+
+      const grid = document.getElementById('product-grid');
+      const countLabel = document.getElementById('results-count');
+
+      function renderProducts(products) {
+        grid.innerHTML = '';
+        countLabel.innerText = `Showing ${products.length} results`;
+        
+        products.forEach(prod => {
+          const discountedPrice = window.calculateDiscount(prod.price, prod.discount);
+          grid.innerHTML += `
+            <div class="card">
+              <div class="card-img-wrapper" style="cursor:pointer;" onclick="window.location.href='product.html?id=${prod.id}'">
+                <img src="${prod.image}" alt="${prod.name}">
+                ${prod.discount > 0 ? `<div style="position:absolute; top:10px; right:10px; background:var(--color-danger); color:white; padding:4px 8px; border-radius:var(--radius-pill); font-weight:bold; font-size:0.8rem;">-${prod.discount}%</div>` : ''}
+              </div>
+              <div class="card-content">
+                <a href="product.html?id=${prod.id}"><h3 style="font-size:1.1rem; margin-bottom:0.5rem;">${prod.name}</h3></a>
+                <div style="display:flex; align-items:center; gap:5px; margin-bottom: 0.5rem;">
+                  <i class="fa-solid fa-star" style="color:var(--color-warning); font-size:0.8rem;"></i>
+                  <span style="font-size:0.9rem; color:var(--color-text-secondary);">${prod.rating} (${prod.reviews})</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-size:1.25rem; font-weight:bold; color:var(--color-text-primary);">${window.formatCurrency(discountedPrice)}</span>
+                  ${prod.discount > 0 ? `<span style="font-size:0.9rem; color:var(--color-text-muted); text-decoration:line-through;">${window.formatCurrency(prod.price)}</span>` : ''}
+                </div>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <button class="btn btn-primary" style="flex: 1;" onclick="event.stopPropagation(); window.addToCart('${prod.id}')">
+                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                  </button>
+                  <button class="btn btn-icon btn-outline" onclick="event.stopPropagation(); alert('Added to wishlist')">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      function applyFilters() {
+        let filtered = window.db.products.filter(p => p.type === window.portalType);
+        
+        // Search
+        const queryDesktop = document.getElementById('search-input').value.toLowerCase();
+        const mobileSearchEl = document.getElementById('mobile-search-input');
+        const queryMobile = mobileSearchEl ? mobileSearchEl.value.toLowerCase() : '';
+        const query = queryMobile || queryDesktop;
+        if (query) {
+          filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+        }
+
+        // Category
+        const checkedCat = document.querySelector('input[name="category"]:checked').value;
+        if (checkedCat !== 'all') {
+          filtered = filtered.filter(p => p.category === checkedCat);
+        }
+
+        // Price
+        const priceRange = document.querySelector('input[name="price"]:checked').value;
+        if (priceRange === 'under-20') filtered = filtered.filter(p => window.calculateDiscount(p.price, p.discount) < 20);
+        else if (priceRange === '20-50') filtered = filtered.filter(p => window.calculateDiscount(p.price, p.discount) >= 20 && window.calculateDiscount(p.price, p.discount) <= 50);
+        else if (priceRange === '50-plus') filtered = filtered.filter(p => window.calculateDiscount(p.price, p.discount) > 50);
+
+        // Sort
+        const sortVal = document.getElementById('sort-select').value;
+        if (sortVal === 'price-low') filtered.sort((a,b) => window.calculateDiscount(a.price, a.discount) - window.calculateDiscount(b.price, b.discount));
+        else if (sortVal === 'price-high') filtered.sort((a,b) => window.calculateDiscount(b.price, b.discount) - window.calculateDiscount(a.price, a.discount));
+        else if (sortVal === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+        renderProducts(filtered);
+      }
+
+      // Add event listeners for filters
+      document.getElementById('search-input').addEventListener('input', applyFilters);
+      const mobileSearchEl = document.getElementById('mobile-search-input');
+      if (mobileSearchEl) mobileSearchEl.addEventListener('input', applyFilters);
+      
+      const filterToggle = document.getElementById('mobile-filter-toggle');
+      if (filterToggle) {
+        filterToggle.addEventListener('click', () => {
+          document.querySelector('.sidebar').classList.toggle('show-mobile');
+        });
+      }
+      document.getElementById('sort-select').addEventListener('change', applyFilters);
+      document.querySelectorAll('input[name="category"], input[name="price"]').forEach(el => {
+        el.addEventListener('change', applyFilters);
+      });
+
+      // Initial render
+      applyFilters();
+    });
+  </script>
+  <div class="cursor"></div>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Digital Goods</title>
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .payment-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: calc(var(--nav-height) + var(--spacing-xl)) var(--spacing-md) var(--spacing-xxl);
+    }
+    .payment-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+    @media (min-width: 600px) {
+      .payment-layout { grid-template-columns: 1fr 1fr; }
+    }
+    .payment-method {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+      background: var(--color-surface);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .payment-method:hover { border-color: var(--color-primary); }
+    .payment-method.active { border-color: var(--color-primary); background: rgba(79, 70, 229, 0.05); }
+    .method-icon { font-size: 1.5rem; width: 40px; text-align: center; }
+    
+    .qr-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      text-align: center;
+    }
+    .qr-container img { width: 200px; height: 200px; margin-bottom: 1rem; border-radius: var(--radius-sm); }
+
+    /* Success Overlay */
+    .success-overlay {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
+      z-index: 2000; display: none; align-items: center; justify-content: center;
+      flex-direction: column; color: white;
+    }
+    .success-overlay .icon { font-size: 5rem; color: var(--color-success); margin-bottom: 1rem; animation: zoomIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+  </style>
+</head>
+<body>
+
+  <div class="payment-container">
+    <div style="text-align: center; margin-bottom: var(--spacing-xl);">
+      <h2>Complete Your Payment</h2>
+      <p style="color: var(--color-text-secondary);">Total to pay: <strong id="payment-total">$35.90</strong></p>
+    </div>
+
+    <div class="payment-layout">
+      <div>
+        <!-- eSewa -->
+        <div class="payment-method active" onclick="selectMethod(this, 'esewa')">
+          <input type="radio" name="payment" checked style="pointer-events:none;">
+          <div class="method-icon" style="color: #60a917;"><i class="fa-solid fa-wallet"></i></div>
+          <div style="flex:1; font-weight: 500;">eSewa</div>
+        </div>
+
+        <!-- Bank Transfer -->
+        <div class="payment-method" onclick="selectMethod(this, 'bank')">
+          <input type="radio" name="payment" style="pointer-events:none;">
+          <div class="method-icon" style="color: #00509e;"><i class="fa-solid fa-building-columns"></i></div>
+          <div style="flex:1; font-weight: 500;">Bank Transfer (QR)</div>
+        </div>
+
+        <!-- Khalti -->
+        <div class="payment-method" onclick="selectMethod(this, 'khalti')">
+          <input type="radio" name="payment" style="pointer-events:none;">
+          <div class="method-icon" style="color: #5c2d91;"><i class="fa-solid fa-mobile-screen"></i></div>
+          <div style="flex:1; font-weight: 500;">Khalti</div>
+        </div>
+      </div>
+
+      <div class="qr-container">
+        <h3 id="qr-title" style="margin-bottom: var(--spacing-md);">Scan with eSewa</h3>
+        <img id="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=esewa_mock" alt="QR Code">
+        <p style="color: var(--color-text-secondary); font-size: 0.9rem; max-width: 250px;">Open your app and scan this QR code to complete the transaction.</p>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: var(--spacing-md); margin-top: var(--spacing-xl);">
+      <button class="btn btn-outline" style="flex: 1; padding: 1rem; font-size: 1.1rem;" onclick="window.location.href='checkout.html'">
+        Cancel
+      </button>
+      <button class="btn btn-primary" id="btn-pay" style="flex: 1; padding: 1rem; font-size: 1.1rem;" onclick="processPayment(this)">
+        Pay Now
+      </button>
+    </div>
+  </div>
+
+  <div class="success-overlay" id="success">
+    <div class="icon"><i class="fa-solid fa-circle-check"></i></div>
+    <h2 style="margin-bottom: 0.5rem;">Payment Successful!</h2>
+    <p>Your digital goods are ready.</p>
+  </div>
+
+    <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="products.html" class="bottom-nav-item">
+      <i class="fa-solid fa-box"></i>
+      <span>Products</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script>window.portalType = "digital";</script>
+  <script>window.portalType = "digital";</script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cart = window.getCart();
+      
+      const payBtn = document.getElementById('btn-pay');
+      
+      let subtotal = 0;
+      cart.forEach(cartItem => {
+        const product = window.db.products.find(p => p.id === cartItem.id);
+        if (product) {
+          const discountedPrice = window.calculateDiscount(product.price, product.discount);
+          subtotal += discountedPrice * cartItem.quantity;
+        }
+      });
+      document.getElementById('payment-total').textContent = window.formatCurrency(subtotal);
+      
+      if (cart.length > 0) {
+        payBtn.textContent = 'Pay ' + window.formatCurrency(subtotal);
+      } else {
+        payBtn.textContent = 'Cart is empty';
+      }
+    });
+
+    function selectMethod(el, method) {
+      document.querySelectorAll('.payment-method').forEach(m => {
+        m.classList.remove('active');
+        m.querySelector('input').checked = false;
+      });
+      el.classList.add('active');
+      el.querySelector('input').checked = true;
+      
+      const qrTitle = document.getElementById('qr-title');
+      const qrImage = document.getElementById('qr-image');
+      
+      if (method === 'esewa') {
+        qrTitle.textContent = 'Scan with eSewa';
+        qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=esewa_mock';
+      } else if (method === 'bank') {
+        qrTitle.textContent = 'Scan with Bank App';
+        qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bank_mock';
+      } else if (method === 'khalti') {
+        qrTitle.textContent = 'Scan with Khalti';
+        qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=khalti_mock';
+      }
+    }
+
+    function processPayment(btn) {
+      if (window.getCart().length === 0) {
+        window.showEmptyCartPopup();
+        return;
+      }
+      if (!localStorage.getItem('mockUser')) {
+        window.showLoginPopup();
+        return;
+      }
+      
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        const overlay = document.getElementById('success');
+        overlay.style.display = 'flex';
+        
+        // Clear the cart
+        localStorage.setItem('cart_digital', JSON.stringify([]));
+        if (window.updateCartBadge) window.updateCartBadge();
+        
+        setTimeout(() => {
+          window.location.href = 'index.html'; // Redirect to home
+      }
+  </script>
+  <div class="cursor"></div>
+</body>
+
+</html>

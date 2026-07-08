@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - Digital Goods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: var(--spacing-xl);
+      padding: calc(var(--nav-height) + var(--spacing-xl)) 0 var(--spacing-xxl);
+    }
+    .profile-sidebar {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-lg);
+      height: fit-content;
+    }
+    .user-info {
+      text-align: center;
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .user-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--color-surface-hover);
+      margin: 0 auto var(--spacing-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--color-text-muted);
+      border: 2px solid var(--color-primary);
+    }
+    .profile-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .profile-nav a {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      color: var(--color-text-secondary);
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .profile-nav a:hover, .profile-nav a.active {
+      background: var(--color-surface-hover);
+      color: var(--color-text-primary);
+    }
+    .profile-content {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+    }
+    .form-row { display: flex; gap: var(--spacing-md); }
+    .form-row .input-group { flex: 1; }
+    @media (max-width: 768px) {
+      .profile-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="profile-layout">
+      <!-- Sidebar -->
+      <aside class="profile-sidebar animate-slide-up">
+        <div class="user-info">
+          <div class="user-avatar">
+            <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+          </div>
+          <h3 style="margin-bottom: 0.25rem;">John Doe</h3>
+          <p style="color: var(--color-text-muted); font-size: 0.9rem;">john.doe@example.com</p>
+        </div>
+        <nav class="profile-nav" id="profile-nav-links">
+          <a href="#" class="active" data-tab="tab-personal"><i class="fa-solid fa-user"></i> Personal Info</a>
+          <a href="#" data-tab="tab-orders"><i class="fa-solid fa-box"></i> Order History</a>
+          <a href="#" data-tab="tab-wishlist"><i class="fa-solid fa-heart"></i> Wishlist</a>
+          <a href="#" data-tab="tab-security"><i class="fa-solid fa-shield-halved"></i> Security</a>
+          <a href="login.html" style="color: var(--color-danger);"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="profile-content animate-slide-up" style="animation-delay: 0.1s;">
+        
+        <!-- Personal Info Tab -->
+        <div id="tab-personal" class="profile-tab">
+          <h2 style="margin-bottom: var(--spacing-lg);">Personal Information</h2>
+        
+        <form>
+          <div class="form-row">
+            <div class="input-group">
+              <label>First Name</label>
+              <input type="text" class="input-field" value="John">
+            </div>
+            <div class="input-group">
+              <label>Last Name</label>
+              <input type="text" class="input-field" value="Doe">
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" class="input-field" value="john.doe@example.com" readonly style="opacity: 0.7; cursor: not-allowed;">
+          </div>
+          
+          <div class="input-group">
+            <label>Phone Number</label>
+            <input type="tel" class="input-field" placeholder="+1 234 567 8900">
+          </div>
+
+          <h3 style="margin-top: var(--spacing-xl); margin-bottom: var(--spacing-md);">Preferences</h3>
+          
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+            <input type="checkbox" checked> Subscribe to newsletter and exclusive offers
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--color-text-secondary);">
+            <input type="checkbox" checked> Receive order notifications via email
+          </label>
+
+          <div style="margin-top: var(--spacing-xl);">
+            <button type="button" class="btn btn-primary" onclick="alert('Profile updated successfully')">Save Changes</button>
+          </div>
+        </form>
+        </div>
+
+        <!-- Order History Tab -->
+        <div id="tab-orders" class="profile-tab" style="display: none;">
+          <h2 style="margin-bottom: var(--spacing-lg);">Order History</h2>
+          
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-md);">
+            <!-- Mock Order -->
+            <div style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--spacing-md); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h4 style="margin-bottom: 4px;">Order #ORD-7392</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.85rem;">July 5, 2026 &bull; 2 items</p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-weight: 700; margin-bottom: 4px;">$35.90</div>
+                <span class="badge primary">Completed</span>
+              </div>
+            </div>
+
+            <!-- Mock Order -->
+            <div style="border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--spacing-md); display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h4 style="margin-bottom: 4px;">Order #ORD-6120</h4>
+                <p style="color: var(--color-text-secondary); font-size: 0.85rem;">June 12, 2026 &bull; 1 item</p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-weight: 700; margin-bottom: 4px;">$14.39</div>
+                <span class="badge primary">Completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder Tabs for Wishlist and Security -->
+        <div id="tab-wishlist" class="profile-tab" style="display: none;">
+          <h2 style="margin-bottom: var(--spacing-lg);">Wishlist</h2>
+          <p style="color: var(--color-text-secondary);">Your wishlist is currently empty.</p>
+        </div>
+
+        <div id="tab-security" class="profile-tab" style="display: none;">
+          <h2 style="margin-bottom: var(--spacing-lg);">Security Settings</h2>
+          <p style="color: var(--color-text-secondary);">Manage your passwords and 2FA settings here.</p>
+          <button class="btn btn-outline" style="margin-top: var(--spacing-md);">Change Password</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Setup Logout Button
+      const logoutBtn = document.querySelector('a[style*="color: var(--color-danger)"]');
+      if (logoutBtn) {
+        logoutBtn.href = "#";
+        logoutBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          localStorage.removeItem('mockUser');
+          window.location.href = 'index.html';
+        });
+      }
+
+      // Tab Switching Logic
+      const navLinks = document.querySelectorAll('#profile-nav-links a[data-tab]');
+      const tabs = document.querySelectorAll('.profile-tab');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Remove active class from all links
+          navLinks.forEach(l => l.classList.remove('active'));
+          // Add active class to clicked link
+          link.classList.add('active');
+          
+          // Hide all tabs
+          tabs.forEach(tab => tab.style.display = 'none');
+          
+          // Show target tab
+          const targetTabId = link.getAttribute('data-tab');
+          const targetTab = document.getElementById(targetTabId);
+          if (targetTab) {
+            targetTab.style.display = 'block';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

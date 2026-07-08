@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Goods Marketplace</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* Home specific styles */
+    .hero {
+      padding-top: 180px;
+      padding-bottom: var(--spacing-xxl);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 50%, var(--color-primary) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 20%, var(--color-secondary) 0%, transparent 40%);
+      opacity: 0.15;
+      z-index: -1;
+      filter: blur(60px);
+      animation: ambientMesh 15s ease-in-out infinite alternate;
+    }
+    
+    @keyframes ambientMesh {
+      0% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(-10deg); }
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5rem);
+      margin-bottom: var(--spacing-md);
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--color-text-secondary);
+      max-width: 650px;
+      margin: 0 auto var(--spacing-xl);
+      line-height: 1.6;
+    }
+
+    .search-bar {
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-sm);
+      font-size: 1rem;
+      padding-right: 120px;
+    }
+
+    .search-bar .btn {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      bottom: 6px;
+      padding: 0 1.5rem;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Product Grid */
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-xxl);
+    }
+
+    /* Category Cards */
+    .cat-card {
+      text-align: center;
+      padding: var(--spacing-lg);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      transition: all var(--transition-normal);
+      cursor: pointer;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--color-primary);
+    }
+
+    .cat-card i {
+      font-size: 2.5rem;
+      color: var(--color-primary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .product-price {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-sm);
+    }
+
+    .price-new {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .price-old {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      text-decoration: line-through;
+    }
+
+    .footer {
+      background: var(--color-surface);
+      padding: var(--spacing-xxl) 0 var(--spacing-lg);
+      margin-top: auto;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--spacing-xl);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .footer-col h3 {
+      margin-bottom: var(--spacing-md);
+    }
+
+    .footer-col ul li {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .footer-col ul li a {
+      color: var(--color-text-secondary);
+      transition: color var(--transition-fast);
+    }
+
+    .footer-col ul li a:hover {
+      color: var(--color-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop Navbar -->
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="digital.html">Home</a>
+      <a href="categories.html?type=digital">Categories</a>
+      <a href="products.html?type=digital">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;" id="nav-actions">
+      <a href="services.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-right-left"></i> <span class="hide-on-mobile">Switch Services</span>
+      </a>
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero container">
+      <div class="animate-slide-up">
+        <span class="badge primary" style="margin-bottom: 1rem;">Premium Digital Assets</span>
+        <h1>Unlock Premium Digital Goods Instantly</h1>
+        <p>Discover subscriptions, software, gift cards, and more. Get instant delivery to your email.</p>
+        
+        <div class="search-bar">
+          <input type="text" placeholder="Search for products, categories...">
+          <button class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- Popular Categories -->
+      <div class="section-title animate-fade-in stagger-1">
+        <h2>Popular Categories</h2>
+        <a href="categories.html" class="btn btn-outline" style="padding: 0.5rem 1rem;">View All</a>
+      </div>
+      
+      <div class="grid animate-fade-in stagger-2" id="categories-grid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));">
+        <!-- Will be populated by JS -->
+      </div>
+
+      <!-- Featured Products -->
+      <div class="section-title animate-fade-in stagger-3">
+        <h2>Featured Products <i class="fa-solid fa-fire" style="color: var(--color-danger);"></i></h2>
+        <a href="products.html" class="btn btn-outline" style="padding: 0.5rem 1rem;">View All</a>
+      </div>
+
+      <div class="grid animate-fade-in stagger-4" id="products-grid">
+        <!-- Will be populated by JS -->
+      </div>
+      
+      <!-- Newsletter -->
+      <section style="background: var(--color-surface); padding: var(--spacing-xxl) var(--spacing-md); border-radius: var(--radius-lg); text-align: center; margin-bottom: var(--spacing-xxl); border: 1px solid var(--color-border);" class="animate-slide-up">
+        <h2 style="margin-bottom: 1rem;">Get Updates & Special Offers</h2>
+        <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Subscribe to our newsletter for exclusive discounts.</p>
+        <div class="search-bar">
+          <input type="email" placeholder="Your email address">
+          <button class="btn btn-primary">Subscribe</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+          <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+        </a>
+        <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Your premium destination for all digital goods and subscriptions.</p>
+        <div style="display: flex; gap: 1rem;">
+          <a href="#" class="btn-icon"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="btn-icon"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="btn-icon"><i class="fa-brands fa-discord"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="products.html">All Products</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact Support</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="terms.html">Terms of Service</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="refund.html">Refund Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="text-align: center; color: var(--color-text-muted); border-top: 1px solid var(--color-border); padding-top: var(--spacing-lg);">
+      &copy; 2026 Digital Goods Marketplace. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Await real data from Supabase
+      if (window.fetchProducts) await window.fetchProducts();
+
+      // Load Categories
+      const catGrid = document.getElementById('categories-grid');
+      window.db.categories.filter(c => c.type === 'digital').slice(0, 6).forEach(cat => {
+        catGrid.innerHTML += `
+          <div class="cat-card" onclick="window.location.href='categories.html?id=${cat.id}'">
+            <i class="${cat.icon}"></i>
+            <h3 style="font-size: 1rem;">${cat.name}</h3>
+            <p style="font-size: 0.8rem; color: var(--color-text-muted);">${cat.count} Items</p>
+          </div>
+        `;
+      });
+
+      // Load Featured Products
+      const prodGrid = document.getElementById('products-grid');
+      window.db.products.filter(p => p.type === 'digital').slice(0, 4).forEach(prod => {
+        const discountedPrice = window.calculateDiscount(prod.price, prod.discount);
+        
+        prodGrid.innerHTML += `
+          <div class="card">
+            <div class="card-img-wrapper" style="cursor:pointer;" onclick="window.location.href='product.html?id=${prod.id}'">
+              <img src="${prod.image}" alt="${prod.name}">
+              ${prod.discount > 0 ? `<div style="position:absolute; top:10px; right:10px; background:var(--color-danger); color:white; padding:4px 8px; border-radius:var(--radius-pill); font-weight:bold; font-size:0.8rem;">-${prod.discount}%</div>` : ''}
+            </div>
+            <div class="card-content">
+              <a href="product.html?id=${prod.id}"><h3>${prod.name}</h3></a>
+              <div style="display:flex; align-items:center; gap:5px; margin: 5px 0;">
+                <i class="fa-solid fa-star" style="color:var(--color-warning); font-size:0.8rem;"></i>
+                <span style="font-size:0.9rem; color:var(--color-text-secondary);">${prod.rating} (${prod.reviews})</span>
+              </div>
+              <div class="product-price">
+                <span class="price-new">${window.formatCurrency(discountedPrice)}</span>
+                ${prod.discount > 0 ? `<span class="price-old">${window.formatCurrency(prod.price)}</span>` : ''}
+              </div>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="event.stopPropagation(); window.addToCart('${prod.id}')">
+                <i class="fa-solid fa-cart-plus"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        `;
+      });
+    });
+  </script>
+</body>
+</html>

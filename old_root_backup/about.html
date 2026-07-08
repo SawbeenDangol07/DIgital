@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Digital Goods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <nav class="navbar glass">
+    <div class="logo">
+      <a href="index.html" style="font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fa-solid fa-layer-group" style="color: var(--color-primary);"></i> D-Goods
+      </a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="categories.html">Categories</a>
+      <a href="products.html">Products</a>
+      <a href="orders.html">Orders</a>
+      <a href="about.html">About</a>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <a href="cart.html" class="btn-icon" style="position: relative;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge primary" style="position: absolute; top: -5px; right: -5px; padding: 2px 6px;">0</span>
+      </a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+    </div>
+  </nav>
+
+  <main>
+    <div style="padding: calc(var(--nav-height) + var(--spacing-xxl)) 0; text-align: center; background: linear-gradient(180deg, var(--color-surface-hover) 0%, transparent 100%);">
+      <div class="container animate-slide-up">
+        <h1 style="font-size: 3rem; margin-bottom: var(--spacing-md);">Revolutionizing Digital Commerce</h1>
+        <p style="font-size: 1.2rem; color: var(--color-text-secondary); max-width: 700px; margin: 0 auto;">We believe that purchasing digital goods should be instant, secure, and beautiful.</p>
+      </div>
+    </div>
+
+    <div class="container animate-fade-in stagger-2" style="padding: var(--spacing-xxl) 0;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--spacing-xl); margin-bottom: var(--spacing-xxl);">
+        <div style="background: var(--color-surface); padding: var(--spacing-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border); text-align: center;">
+          <i class="fa-solid fa-bolt" style="font-size: 2.5rem; color: var(--color-warning); margin-bottom: 1rem;"></i>
+          <h3>Instant Delivery</h3>
+          <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">No waiting times. As soon as your payment is confirmed, your digital goods are delivered instantly via email and dashboard.</p>
+        </div>
+        <div style="background: var(--color-surface); padding: var(--spacing-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border); text-align: center;">
+          <i class="fa-solid fa-shield-halved" style="font-size: 2.5rem; color: var(--color-success); margin-bottom: 1rem;"></i>
+          <h3>Secure Transactions</h3>
+          <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">Bank-level encryption and secure payment gateways ensure your data and money are always protected.</p>
+        </div>
+        <div style="background: var(--color-surface); padding: var(--spacing-xl); border-radius: var(--radius-lg); border: 1px solid var(--color-border); text-align: center;">
+          <i class="fa-solid fa-gem" style="font-size: 2.5rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
+          <h3>Premium Quality</h3>
+          <p style="color: var(--color-text-secondary); margin-top: 0.5rem;">We partner with top-tier providers to ensure every subscription, key, and software license is 100% authentic.</p>
+        </div>
+      </div>
+
+      <div style="text-align: center;">
+        <h2 style="margin-bottom: var(--spacing-xl);">Our Global Impact</h2>
+        <div style="display: flex; justify-content: center; gap: var(--spacing-xxl); flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary);">50K+</div>
+            <div style="color: var(--color-text-secondary);">Happy Customers</div>
+          </div>
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary);">1M+</div>
+            <div style="color: var(--color-text-secondary);">Digital Goods Sold</div>
+          </div>
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--color-primary);">99.9%</div>
+            <div style="color: var(--color-text-secondary);">Uptime</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="categories.html" class="bottom-nav-item">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Categories</span>
+    </a>
+    <a href="cart.html" class="bottom-nav-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+    </a>
+    <a href="profile.html" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </nav>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
